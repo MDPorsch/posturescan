@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body, #root {
+  height: 100%;
+}
+
+body {
+  background:
+    radial-gradient(60rem 40rem at 80% -10%, rgba(16, 185, 129, 0.08), transparent 60%),
+    radial-gradient(40rem 30rem at -10% 30%, rgba(16, 185, 129, 0.05), transparent 60%),
+    #0B1219;
+  background-attachment: fixed;
+}
+
+/* Subtle noise overlay for depth — pure CSS, no asset. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.025;
+  z-index: 0;
+  background-image:
+    repeating-linear-gradient(0deg,   transparent 0 2px, rgba(255,255,255,0.6) 2px 3px),
+    repeating-linear-gradient(90deg,  transparent 0 2px, rgba(255,255,255,0.6) 2px 3px);
+}
+
+#root {
+  position: relative;
+  z-index: 1;
+}
+
+@layer components {
+  .ps-card {
+    @apply rounded-2xl border border-border-subtle bg-slate-900/70 backdrop-blur-sm;
+  }
+  .ps-input {
+    @apply w-full rounded-xl border border-border-subtle bg-slate-850 px-4 py-3 text-emerald-50
+           placeholder:text-emerald-50/40 focus:border-emerald-500 focus:outline-none focus:ring-2
+           focus:ring-emerald-500/30 transition;
+  }
+  .ps-btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl px-5 py-3 font-display
+           font-semibold tracking-tight transition;
+  }
+  .ps-btn-primary {
+    @apply ps-btn bg-emerald-500 text-slate-950 hover:bg-emerald-400 active:scale-[0.98];
+  }
+  .ps-btn-ghost {
+    @apply ps-btn border border-border-subtle text-emerald-50 hover:bg-emerald-900/40;
+  }
+  .ps-link {
+    @apply text-emerald-400 hover:text-emerald-300 underline-offset-4 hover:underline;
+  }
+  .grade-pill {
+    @apply inline-flex items-center justify-center font-display font-extrabold;
+  }
+}
+
+/* Recharts tooltip override */
+.recharts-default-tooltip {
+  background-color: #0F1A22 !important;
+  border: 1px solid #1A3022 !important;
+  border-radius: 8px !important;
+}
