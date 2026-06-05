@@ -69,3 +69,24 @@ body::before {
   border: 1px solid #1A3022 !important;
   border-radius: 8px !important;
 }
+
+/* Hero scanner sweep — a thin emerald line that travels top → bottom of the hero */
+@keyframes scan-sweep {
+  0%   { transform: translateY(0);     opacity: 0;   }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { transform: translateY(42rem); opacity: 0;   }
+}
+.animate-scan-sweep {
+  animation: scan-sweep 4.5s ease-in-out infinite;
+}
+
+/* Score reveal — used on the GradeCard score number when results arrive */
+@keyframes score-pop {
+  0%   { transform: scale(0.85); opacity: 0; }
+  60%  { transform: scale(1.06); opacity: 1; }
+  100% { transform: scale(1);    opacity: 1; }
+}
+.animate-score-pop {
+  animation: score-pop 700ms cubic-bezier(0.22, 1, 0.36, 1) both;
+}

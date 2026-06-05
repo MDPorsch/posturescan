@@ -27,7 +27,7 @@ export default function GradeCard({ hostname, score, grade, scannedAt, children 
 
         <div className="flex items-center gap-6">
           <div
-            className="grade-pill h-28 w-28 rounded-3xl text-7xl"
+            className="grade-pill h-28 w-28 rounded-3xl text-7xl animate-score-pop"
             style={{
               color: palette.text,
               background: palette.bg,
@@ -37,7 +37,7 @@ export default function GradeCard({ hostname, score, grade, scannedAt, children 
             {grade}
           </div>
           <div>
-            <div className="font-display text-5xl font-extrabold leading-none">{score}</div>
+            <div className="font-display text-5xl font-extrabold leading-none animate-score-pop" style={{ animationDelay: '120ms' }}>{score}</div>
             <div className="mt-1 text-sm text-emerald-50/60">out of 100</div>
             <div className="mt-2 text-xs font-medium uppercase tracking-wider"
                  style={{ color: palette.text }}>
