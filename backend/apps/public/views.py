@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import timedelta
 
-from django.db.models import Avg, Count
+from django.db.models import Avg, Count, Max
 from django.http import HttpResponse
 from django.utils import timezone
 from rest_framework import permissions
@@ -151,12 +151,18 @@ class PublicDashboardView(APIView):
         for row in recent:
             row["hostname"] = public_name(row["hostname"])
 
-        # Recent benchmarks — most recent scans of allowlisted sites only,
-        # shown in full so the dashboard / Landing hero has real, recognisable
-        # data to display.
-        benchmarks = list(
+        # Featured benchmarks — one card per allowlisted hostname, showing the
+        # most recent scan of each (not the N most recent scans overall, which
+        # would let one repeatedly-scanned site crowd out the rest).
+        latest_ids = (
             qs.filter(hostname__in=PUBLIC_BENCHMARKS)
-            .order_by("-created_at")[:12]
+            .values("hostname")
+            .annotate(latest=Max("id"))
+            .values_list("latest", flat=True)
+        )
+        benchmarks = list(
+            qs.filter(id__in=list(latest_ids))
+            .order_by("-created_at")[:3]
             .values("id", "hostname", "score", "grade", "created_at")
         )
 
