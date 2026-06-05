@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+from datetime import timedelta
+
 from django.db.models import Avg, Count
 from django.http import HttpResponse
 from django.utils import timezone
@@ -11,6 +13,7 @@ from rest_framework.views import APIView
 from apps.scans.runner import execute
 from engine.ssrf_guard import UnsafeTargetError, resolve_safely
 
+from .benchmarks import PUBLIC_BENCHMARKS, public_name
 from .models import GuestCheckResult, GuestScan
 from .serializers import GuestScanSerializer
 
@@ -116,10 +119,12 @@ class PublicDashboardView(APIView):
         if total == 0:
             return Response({
                 "total_scans": 0,
+                "total_scans_today": 0,
                 "average_score": 0,
                 "grade_distribution": {g: 0 for g in "ABCDF"},
                 "common_failures": [],
                 "recent_scans": [],
+                "recent_benchmarks": [],
             })
 
         agg = qs.aggregate(avg=Avg("score"))
@@ -135,14 +140,32 @@ class PublicDashboardView(APIView):
             .order_by("-count")[:10]
         )
 
-        recent = qs.order_by("-created_at")[:10].values(
+        day_ago = timezone.now() - timedelta(hours=24)
+        total_scans_today = qs.filter(created_at__gte=day_ago).count()
+
+        # Recent scans — hostnames are masked for privacy unless they're on
+        # the public-benchmarks allowlist.
+        recent = list(qs.order_by("-created_at")[:10].values(
             "id", "hostname", "score", "grade", "created_at",
+        ))
+        for row in recent:
+            row["hostname"] = public_name(row["hostname"])
+
+        # Recent benchmarks — most recent scans of allowlisted sites only,
+        # shown in full so the dashboard / Landing hero has real, recognisable
+        # data to display.
+        benchmarks = list(
+            qs.filter(hostname__in=PUBLIC_BENCHMARKS)
+            .order_by("-created_at")[:12]
+            .values("id", "hostname", "score", "grade", "created_at")
         )
 
         return Response({
             "total_scans": total,
+            "total_scans_today": total_scans_today,
             "average_score": round(agg["avg"] or 0, 1),
             "grade_distribution": grades,
             "common_failures": list(failures),
-            "recent_scans": list(recent),
+            "recent_scans": recent,
+            "recent_benchmarks": benchmarks,
         })
