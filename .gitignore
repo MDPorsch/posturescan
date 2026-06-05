@@ -45,3 +45,5 @@ coverage.xml
 
 # Sentry
 .sentryclirc
+*.db
+*.sqlite3
