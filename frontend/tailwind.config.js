@@ -30,6 +30,7 @@ export default {
         // (loaded via index.html <link>).
         display: ['"Manrope"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         body: ['"Inter Tight"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'ui-serif', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {

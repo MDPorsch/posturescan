@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { api } from '../api/client.js'
 
@@ -49,15 +49,6 @@ const STEPS = [
   { n: '03', t: 'Get the fix',   d: 'Every finding comes with a copy-paste remediation.' },
 ]
 
-const PRESETS = [
-  { host: 'github.com',           grade: 'A', note: 'typically' },
-  { host: 'stripe.com',           grade: 'A', note: 'typically' },
-  { host: 'cloudflare.com',       grade: 'A', note: 'typically' },
-  { host: 'badssl.com',           grade: 'F', note: 'broken by design' },
-  { host: 'expired.badssl.com',   grade: 'F', note: 'expired cert' },
-  { host: 'self-signed.badssl.com', grade: 'F', note: 'self-signed' },
-]
-
 // Fallback rotation for the hero card while the API loads or if it's empty.
 const FALLBACK_BENCHMARKS = [
   { hostname: 'stripe.com',     score: 96, grade: 'A' },
@@ -75,27 +66,34 @@ function normalise(input) {
     .replace(/\/.*$/, '')
 }
 
+// Render a step title with the final word swapped to Instrument Serif italic
+// — e.g. "Type a domain" → Type a [domain].
+function renderStepTitle(title) {
+  const words = title.split(' ')
+  const last = words.pop()
+  return (
+    <>
+      {words.join(' ')}{' '}
+      <span className="font-serif font-normal italic text-emerald-300">{last}</span>
+    </>
+  )
+}
+
 // ── Main component ───────────────────────────────────────────────────────────
 
 export default function Landing() {
   const nav = useNavigate()
   const [hostname, setHostname] = useState('')
   const [error, setError] = useState('')
-  const [stats, setStats] = useState(null)
   const [benchmarks, setBenchmarks] = useState(FALLBACK_BENCHMARKS)
   const [demoIdx, setDemoIdx] = useState(0)
 
-  // Pull real data from the dashboard endpoint.
+  // Pull recent benchmark scans for the rotating hero card.
   useEffect(() => {
     let alive = true
     api.publicDashboard()
       .then((data) => {
         if (!alive) return
-        setStats({
-          total: data.total_scans,
-          today: data.total_scans_today,
-          avg:   data.average_score,
-        })
         if (data.recent_benchmarks?.length) {
           setBenchmarks(data.recent_benchmarks.slice(0, 6))
         }
@@ -186,39 +184,11 @@ export default function Landing() {
 
               {error && <p className="mt-3 font-mono text-sm text-red-400">{error}</p>}
 
-              {/* Preset chips */}
-              <div className="mt-6">
-                <p className="mb-3 font-mono text-[11px] uppercase tracking-wider text-emerald-50/40">
-                  or try one of these
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  {PRESETS.map((p) => (
-                    <button
-                      key={p.host}
-                      type="button"
-                      onClick={() => startScan(p.host)}
-                      className="group inline-flex items-center gap-2 rounded-lg border border-border-subtle bg-slate-900/60 px-3 py-1.5 text-sm transition hover:border-emerald-500/50 hover:bg-slate-900"
-                    >
-                      <span className="font-mono text-emerald-50/85 group-hover:text-emerald-50">{p.host}</span>
-                      <span
-                        className="rounded px-1.5 py-0.5 font-mono text-[10px] font-semibold"
-                        style={{ background: `${GRADE_COLORS[p.grade]}22`, color: GRADE_COLORS[p.grade] }}
-                      >
-                        {p.grade}
-                      </span>
-                      <span className="font-mono text-[10px] text-emerald-50/35">{p.note}</span>
-                    </button>
-                  ))}
-                </div>
-              </div>
-
-              {/* Live stats strip */}
-              <div className="mt-10 flex flex-wrap items-center gap-x-8 gap-y-3 border-t border-border-subtle/40 pt-6 text-[13px] text-emerald-50/55">
-                <Stat label="total scans"   value={stats?.total} fallback="—" counter />
-                <Stat label="last 24h"      value={stats?.today} fallback="—" counter />
-                <Stat label="avg score"     value={stats?.avg !== undefined ? `${stats.avg}/100` : null} fallback="—" />
-                <Stat label="categories"    value="8" />
-              </div>
+              <p className="mt-3 text-xs text-emerald-50/40">
+                Try <button type="button" onClick={() => startScan('badssl.com')} className="ps-link">badssl.com</button>,{' '}
+                <button type="button" onClick={() => startScan('github.com')} className="ps-link">github.com</button>, or any
+                site you own.
+              </p>
             </div>
 
             {/* Decorative mock report tile */}
@@ -258,14 +228,17 @@ export default function Landing() {
         </section>
 
         {/* ── How it works ── */}
-        <section className="border-t border-border-subtle/60 py-20">
+        <section className="border-t border-border-subtle/60 py-24">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">how it works</p>
-          <h2 className="mt-2 font-display text-4xl font-bold tracking-tight">Three steps. Zero friction.</h2>
-          <div className="mt-12 space-y-10">
+          <h2 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            Three steps.{' '}
+            <span className="font-serif font-normal italic text-emerald-400">Zero friction.</span>
+          </h2>
+          <div className="mt-16 space-y-16">
             {STEPS.map((s, i) => (
               <div
                 key={s.n}
-                className={`grid items-center gap-8 ${i % 2 === 0 ? '' : 'lg:[direction:rtl]'} sm:grid-cols-[18rem_1fr]`}
+                className={`grid items-center gap-10 ${i % 2 === 0 ? '' : 'lg:[direction:rtl]'} sm:grid-cols-[18rem_1fr]`}
               >
                 <div className="ps-card flex aspect-[3/2] items-center justify-center overflow-hidden p-6 [direction:ltr]">
                   {i === 0 && <IllustrationType />}
@@ -273,9 +246,18 @@ export default function Landing() {
                   {i === 2 && <IllustrationFix />}
                 </div>
                 <div className="[direction:ltr]">
-                  <div className="font-mono text-xs text-emerald-400">{s.n}</div>
-                  <h3 className="mt-2 font-display text-2xl font-semibold tracking-tight">{s.t}</h3>
-                  <p className="mt-3 max-w-xl text-base leading-relaxed text-emerald-50/70">{s.d}</p>
+                  <div className="flex items-baseline gap-4">
+                    <span className="font-serif text-7xl italic leading-none text-emerald-400/80 tabular-nums sm:text-8xl">
+                      {s.n}
+                    </span>
+                    <span className="h-px flex-1 bg-gradient-to-r from-emerald-500/30 to-transparent" />
+                  </div>
+                  <h3 className="mt-5 font-display text-3xl font-semibold tracking-tight sm:text-4xl">
+                    {renderStepTitle(s.t)}
+                  </h3>
+                  <p className="mt-4 max-w-xl font-body text-base leading-relaxed text-emerald-50/70 sm:text-lg">
+                    {s.d}
+                  </p>
                 </div>
               </div>
             ))}
@@ -283,10 +265,11 @@ export default function Landing() {
         </section>
 
         {/* ── What we check ── */}
-        <section className="border-t border-border-subtle/60 py-20">
+        <section className="border-t border-border-subtle/60 py-24">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">what we check</p>
-          <h2 className="mt-2 font-display text-4xl font-bold tracking-tight">
-            Eight categories. <span className="text-emerald-400">Over twenty checks.</span>
+          <h2 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
+            Eight categories.{' '}
+            <span className="font-serif font-normal italic text-emerald-400">Over twenty checks.</span>
           </h2>
           <p className="mt-3 max-w-2xl text-base text-emerald-50/55">
             Hover any tile to see an example finding and the fix you&apos;d get.
@@ -314,40 +297,6 @@ export default function Landing() {
 }
 
 // ── Sub-components ───────────────────────────────────────────────────────────
-
-function Stat({ label, value, fallback = '—', counter = false }) {
-  const display = value === null || value === undefined ? fallback : value
-  const isNumber = typeof value === 'number'
-  return (
-    <div className="flex items-baseline gap-2">
-      <span className="font-display text-xl font-bold tracking-tight text-emerald-50 tabular-nums">
-        {counter && isNumber ? <CountUp to={value} /> : display}
-      </span>
-      <span className="font-mono text-[11px] uppercase tracking-wider text-emerald-50/40">{label}</span>
-    </div>
-  )
-}
-
-function CountUp({ to, duration = 900 }) {
-  const [n, setN] = useState(0)
-  const startedRef = useRef(false)
-  useEffect(() => {
-    if (startedRef.current) return
-    startedRef.current = true
-    const t0 = performance.now()
-    let raf
-    const tick = (now) => {
-      const t = Math.min(1, (now - t0) / duration)
-      // easeOutCubic
-      const eased = 1 - Math.pow(1 - t, 3)
-      setN(Math.round(eased * to))
-      if (t < 1) raf = requestAnimationFrame(tick)
-    }
-    raf = requestAnimationFrame(tick)
-    return () => cancelAnimationFrame(raf)
-  }, [to, duration])
-  return <>{n.toLocaleString()}</>
-}
 
 function FeatureTile({ f }) {
   return (
