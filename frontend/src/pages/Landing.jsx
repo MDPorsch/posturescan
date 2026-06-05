@@ -214,7 +214,7 @@ export default function Landing() {
                     {demo.grade} · {demo.score}
                   </span>
                 </div>
-                <h3 className="mt-3 font-display text-2xl font-bold tracking-tight break-all">
+                <h3 className="mt-3 font-display text-3xl font-bold tracking-tight break-all">
                   {demo.hostname}
                 </h3>
                 <SyntheticChecks score={demo.score} grade={demo.grade} />
@@ -281,14 +281,16 @@ export default function Landing() {
 
         {/* ── CTA ── */}
         <section className="border-t border-border-subtle/60 py-20">
-          <div className="ps-card flex flex-col items-start gap-6 p-8 sm:flex-row sm:items-center sm:justify-between">
+          <div className="ps-card flex flex-col items-start gap-6 p-10 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="font-display text-2xl font-bold tracking-tight">Track domains over time.</h2>
-              <p className="mt-2 text-emerald-50/70">
+              <h2 className="font-display text-3xl font-bold tracking-tight sm:text-4xl">
+                Track domains over time.
+              </h2>
+              <p className="mt-3 text-lg text-emerald-50/70">
                 Free account adds history, score-over-time, and scan comparison.
               </p>
             </div>
-            <a href="/register" className="ps-btn-primary">Create a free account</a>
+            <a href="/register" className="ps-btn-primary text-base">Create a free account</a>
           </div>
         </section>
       </div>
@@ -300,10 +302,10 @@ export default function Landing() {
 
 function FeatureTile({ f }) {
   return (
-    <div className="group relative overflow-hidden bg-slate-900/70 p-6 transition hover:bg-slate-900">
+    <div className="group relative overflow-hidden bg-slate-900/70 p-6 transition hover:bg-slate-900 min-h-[10rem]">
       <div className="transition group-hover:opacity-0">
-        <h3 className="font-display text-base font-semibold tracking-tight text-emerald-400">{f.k}</h3>
-        <p className="mt-1.5 text-sm leading-relaxed text-emerald-50/70">{f.d}</p>
+        <h3 className="font-display text-xl font-semibold tracking-tight text-emerald-400">{f.k}</h3>
+        <p className="mt-2 text-base leading-relaxed text-emerald-50/70">{f.d}</p>
       </div>
       <div className="pointer-events-none absolute inset-0 flex flex-col justify-center bg-slate-900 px-6 opacity-0 transition group-hover:opacity-100">
         <div className="flex items-center gap-2">

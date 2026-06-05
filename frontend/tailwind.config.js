@@ -26,11 +26,11 @@ export default {
         },
       },
       fontFamily: {
-        // Editorial pairing: Playfair Display (display, headings, serif accents)
-        // and Raleway (body, UI). Loaded via index.html <link>.
-        display: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
-        body: ['"Raleway"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['"Playfair Display"', 'ui-serif', 'Georgia', 'serif'],
+        // Distinctive without being trendy-AI: Manrope for headings, Inter Tight for body,
+        // Instrument Serif for editorial italic accents. Loaded via index.html <link>.
+        display: ['"Manrope"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        body: ['"Inter Tight"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        serif: ['"Instrument Serif"', 'ui-serif', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {

@@ -83,7 +83,7 @@ export default function ScanResults() {
         {grouped.map(([cat, results]) => (
           <section key={cat}>
             <header className="mb-4 flex items-baseline justify-between">
-              <h2 className="font-display text-xl font-semibold tracking-tight text-emerald-400">
+              <h2 className="font-display text-2xl font-semibold tracking-tight text-emerald-400 sm:text-3xl">
                 {CATEGORY_LABELS[cat] || cat}
               </h2>
               <span className="font-mono text-xs text-emerald-50/40">
@@ -125,7 +125,7 @@ function ScanningState({ hostname }) {
         <h1 className="mt-3 font-display text-5xl font-extrabold tracking-tight break-words sm:text-6xl">
           {hostname}
         </h1>
-        <p className="mt-4 font-mono text-sm text-emerald-50/60">
+        <p className="mt-5 font-mono text-base text-emerald-50/70">
           <span className="text-emerald-400">›</span>{' '}
           {SCAN_STEPS[stepIdx]}
           <span className="animate-pulse">…</span>

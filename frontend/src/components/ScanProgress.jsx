@@ -72,7 +72,7 @@ export default function ScanProgress({ done = false }) {
             <div className="flex flex-1 items-center justify-between">
               <span
                 className={[
-                  'font-body text-sm tracking-tight transition',
+                  'font-body text-base tracking-tight transition sm:text-base',
                   state === 'done'   && 'text-emerald-50',
                   state === 'active' && 'text-emerald-100',
                   state === 'idle'   && 'text-emerald-50/35',

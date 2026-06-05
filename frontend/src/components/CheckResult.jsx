@@ -29,12 +29,12 @@ export default function CheckResult({ result }) {
               style={{ background: color }}
               aria-hidden="true"
             />
-            <h3 className="font-display text-base font-semibold tracking-tight">
+            <h3 className="font-display text-lg font-semibold tracking-tight">
               {result.check_key.replace(/_/g, ' ')}
             </h3>
           </div>
           {result.observed_value && (
-            <p className="mt-1.5 break-words font-mono text-xs text-emerald-50/60">
+            <p className="mt-2 break-words font-mono text-xs text-emerald-50/60">
               {result.observed_value}
             </p>
           )}
