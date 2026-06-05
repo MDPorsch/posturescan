@@ -26,11 +26,10 @@ export default {
         },
       },
       fontFamily: {
-        // Distinctive without being trendy-AI: Manrope for headings, Inter Tight for body,
-        // Instrument Serif for editorial italic accents. Loaded via index.html <link>.
+        // Single-family system: Manrope for display + headings (with italic as
+        // the accent), Inter Tight for body, JetBrains Mono for code/labels.
         display: ['"Manrope"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
         body: ['"Inter Tight"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
-        serif: ['"Instrument Serif"', 'ui-serif', 'Georgia', 'serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'monospace'],
       },
       boxShadow: {

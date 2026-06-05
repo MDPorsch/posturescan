@@ -66,15 +66,15 @@ function normalise(input) {
     .replace(/\/.*$/, '')
 }
 
-// Render a step title with the final word swapped to Instrument Serif italic
-// — e.g. "Type a domain" → Type a [domain].
+// Render a step title with the final word emphasised in italic.
+// Same family (Manrope) — the contrast comes from italic + weight + colour.
 function renderStepTitle(title) {
   const words = title.split(' ')
   const last = words.pop()
   return (
     <>
       {words.join(' ')}{' '}
-      <span className="font-serif font-normal italic text-emerald-300">{last}</span>
+      <span className="italic font-medium text-emerald-300">{last}</span>
     </>
   )
 }
@@ -232,7 +232,7 @@ export default function Landing() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">how it works</p>
           <h2 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
             Three steps.{' '}
-            <span className="font-serif font-normal italic text-emerald-400">Zero friction.</span>
+            <span className="italic font-medium text-emerald-400">Zero friction.</span>
           </h2>
           <div className="mt-16 space-y-16">
             {STEPS.map((s, i) => (
@@ -247,7 +247,7 @@ export default function Landing() {
                 </div>
                 <div className="[direction:ltr]">
                   <div className="flex items-baseline gap-4">
-                    <span className="font-serif text-7xl italic leading-none text-emerald-400/80 tabular-nums sm:text-8xl">
+                    <span className="font-display text-7xl font-extrabold leading-none text-emerald-400/80 tabular-nums sm:text-8xl">
                       {s.n}
                     </span>
                     <span className="h-px flex-1 bg-gradient-to-r from-emerald-500/30 to-transparent" />
@@ -269,7 +269,7 @@ export default function Landing() {
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">what we check</p>
           <h2 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
             Eight categories.{' '}
-            <span className="font-serif font-normal italic text-emerald-400">Over twenty checks.</span>
+            <span className="italic font-medium text-emerald-400">Over twenty checks.</span>
           </h2>
           <p className="mt-3 max-w-2xl text-base text-emerald-50/55">
             Hover any tile to see an example finding and the fix you&apos;d get.
