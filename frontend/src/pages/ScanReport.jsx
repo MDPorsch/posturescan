@@ -48,6 +48,18 @@ export default function ScanReport() {
     }
   }
 
+  const [downloading, setDownloading] = useState(false)
+  const onDownloadPdf = async () => {
+    setDownloading(true)
+    try {
+      await api.downloadScanPdf(scan.id, scan.hostname)
+    } catch (err) {
+      setError(err.message || 'PDF download failed.')
+    } finally {
+      setDownloading(false)
+    }
+  }
+
   if (error) return <Centered>{error}</Centered>
   if (!scan) return <Centered>Loading report…</Centered>
 
@@ -60,9 +72,14 @@ export default function ScanReport() {
         scannedAt={scan.created_at}
       >
         <div className="flex flex-wrap items-center gap-3">
-          <a href={api.scanPdfUrl(scan.id)} className="ps-btn-ghost text-sm" target="_blank" rel="noreferrer">
-            Download PDF
-          </a>
+          <button
+            type="button"
+            onClick={onDownloadPdf}
+            disabled={downloading}
+            className="ps-btn-ghost text-sm disabled:opacity-60"
+          >
+            {downloading ? 'Preparing PDF…' : 'Download PDF'}
+          </button>
           {history.length > 0 && (
             <div className="flex items-center gap-2">
               <select

@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
+import PasswordInput from '../components/PasswordInput.jsx'
 
 export default function Register() {
   const nav = useNavigate()
@@ -40,9 +41,14 @@ export default function Register() {
         <input type="email" required autoComplete="email"
                className="ps-input" placeholder="you@example.com"
                value={form.email} onChange={update('email')} />
-        <input type="password" required minLength={8} autoComplete="new-password"
-               className="ps-input" placeholder="Password (8+ characters)"
-               value={form.password} onChange={update('password')} />
+        <PasswordInput
+          required
+          minLength={8}
+          autoComplete="new-password"
+          placeholder="Password (8+ characters)"
+          value={form.password}
+          onChange={update('password')}
+        />
         {error && <p className="font-mono text-sm text-red-400">{error}</p>}
         <button type="submit" disabled={busy} className="ps-btn-primary w-full disabled:opacity-60">
           {busy ? 'Creating…' : 'Create account'}

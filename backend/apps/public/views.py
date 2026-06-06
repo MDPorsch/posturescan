@@ -162,7 +162,7 @@ class PublicDashboardView(APIView):
         )
         benchmarks = list(
             qs.filter(id__in=list(latest_ids))
-            .order_by("-created_at")[:3]
+            .order_by("-created_at")[:24]
             .values("id", "hostname", "score", "grade", "created_at")
         )
 

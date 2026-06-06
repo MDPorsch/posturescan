@@ -43,6 +43,18 @@ export default function DomainDetail() {
     }
   }
 
+  const onDelete = async () => {
+    if (!window.confirm(
+      `Stop tracking "${domain.hostname}"?\n\nThis permanently removes the domain and all its scan history.`,
+    )) return
+    try {
+      await api.deleteDomain(id)
+      nav('/app')
+    } catch (err) {
+      setError(err.data?.detail || err.message || 'Could not delete domain.')
+    }
+  }
+
   if (error)  return <Centered>{error}</Centered>
   if (!domain) return <Centered>Loading…</Centered>
 
@@ -75,6 +87,12 @@ export default function DomainDetail() {
           )}
           <button onClick={onScan} disabled={scanning} className="ps-btn-primary disabled:opacity-60">
             {scanning ? 'Scanning…' : 'Run new scan'}
+          </button>
+          <button
+            onClick={onDelete}
+            className="rounded-lg border border-red-500/30 bg-red-500/5 px-4 py-2 text-sm font-medium text-red-300 transition hover:border-red-500/60 hover:bg-red-500/10 hover:text-red-200"
+          >
+            Delete
           </button>
         </div>
       </div>

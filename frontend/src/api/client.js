@@ -81,17 +81,38 @@ export const api = {
   badgeUrl:         (hostname)   => `${BASE}/api/public/badge/${encodeURIComponent(hostname)}/`,
 
   // Domains
-  domains:     ()                => request('/api/domains/',                  { auth: true }),
-  addDomain:   (hostname)        => request('/api/domains/',                  { auth: true, method: 'POST', body: { hostname } }),
-  verifyDomain:(id)              => request(`/api/domains/${id}/verify/`,     { auth: true, method: 'POST' }),
-  scanDomain:  (id)              => request(`/api/domains/${id}/scan/`,       { auth: true, method: 'POST' }),
-  domainHistory:(id)             => request(`/api/domains/${id}/history/`,    { auth: true }),
+  domains:      ()                => request('/api/domains/',                  { auth: true }),
+  addDomain:    (hostname)        => request('/api/domains/',                  { auth: true, method: 'POST', body: { hostname } }),
+  deleteDomain: (id)              => request(`/api/domains/${id}/`,            { auth: true, method: 'DELETE' }),
+  verifyDomain: (id)              => request(`/api/domains/${id}/verify/`,     { auth: true, method: 'POST' }),
+  scanDomain:   (id)              => request(`/api/domains/${id}/scan/`,       { auth: true, method: 'POST' }),
+  domainHistory:(id)              => request(`/api/domains/${id}/history/`,    { auth: true }),
 
   // Scans
   scan:       (id)               => request(`/api/scans/${id}/`,              { auth: true }),
   scanReport: (id)               => request(`/api/scans/${id}/report/`,       { auth: true }),
   scanPdfUrl: (id)               => `${BASE}/api/scans/${id}/pdf/`,
   compare:    (a, b)             => request(`/api/scans/compare/?a=${a}&b=${b}`, { auth: true }),
+
+  // PDF download — does an authenticated fetch and triggers a save.
+  // (A plain <a href> can't include the Authorization header.)
+  downloadScanPdf: async (id, hostname) => {
+    const response = await request(`/api/scans/${id}/pdf/`, { auth: true, raw: true })
+    if (!response.ok) {
+      const err = new Error(`PDF download failed (HTTP ${response.status})`)
+      err.status = response.status
+      throw err
+    }
+    const blob = await response.blob()
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `posturescan-${hostname || 'scan'}-${id}.pdf`
+    document.body.appendChild(a)
+    a.click()
+    a.remove()
+    setTimeout(() => URL.revokeObjectURL(url), 1000)
+  },
 }
 
 export const BASE_URL = BASE

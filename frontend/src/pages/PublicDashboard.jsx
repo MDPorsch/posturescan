@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import {
   Bar, BarChart, CartesianGrid, Cell, Legend, Pie, PieChart, ResponsiveContainer,
@@ -19,8 +19,21 @@ export default function PublicDashboard() {
     return () => { alive = false }
   }, [])
 
+  // Pick 3 random benchmarks from the (up to 24) returned. Memoised so the
+  // trio is stable for the lifetime of this page view; a fresh refresh gives
+  // a different mix because the dashboard endpoint is re-fetched on mount.
+  const featuredBenchmarks = useMemo(() => {
+    if (!data?.recent_benchmarks?.length) return []
+    return [...data.recent_benchmarks].sort(() => Math.random() - 0.5).slice(0, 3)
+  }, [data])
+
   if (error) return <Centered>Could not load dashboard: {error}</Centered>
   if (!data)  return <Centered>Loading dashboard…</Centered>
+
+  // Randomly pick 3 benchmarks from the (up to 24) the backend returns —
+  // memoised so the trio is stable for the lifetime of this page view but
+  // a fresh refresh gives a different mix.
+  // (Defined inside the render because it depends on `data` and is cheap.)
 
   const gradePie = Object.entries(data.grade_distribution || {})
     .map(([grade, count]) => ({
@@ -71,14 +84,16 @@ export default function PublicDashboard() {
               Real grades on well-known sites.
             </h2>
           </div>
-          <span className="hidden font-mono text-xs text-emerald-50/40 sm:inline">
-            {data.recent_benchmarks?.length || 0} live
-          </span>
+          {data.recent_benchmarks?.length > 0 && (
+            <span className="hidden font-mono text-xs text-emerald-50/40 sm:inline">
+              showing {featuredBenchmarks.length} of {data.recent_benchmarks.length} · refresh for a new mix
+            </span>
+          )}
         </header>
 
-        {data.recent_benchmarks?.length ? (
+        {featuredBenchmarks.length ? (
           <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {data.recent_benchmarks.map((b) => <BenchmarkCard key={b.id} b={b} />)}
+            {featuredBenchmarks.map((b) => <BenchmarkCard key={b.id} b={b} />)}
           </div>
         ) : (
           <div className="ps-card mt-6 p-8 text-center text-sm text-emerald-50/40">

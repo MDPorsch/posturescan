@@ -33,6 +33,16 @@ class DomainListCreateView(generics.ListCreateAPIView):
         serializer.save(owner=self.request.user, hostname=hostname)
 
 
+class DomainDestroyView(generics.DestroyAPIView):
+    """DELETE /api/domains/<pk>/ — removes a domain and (via FK cascade) its
+    scans. Owner-scoped: users can only delete their own domains."""
+    serializer_class = DomainSerializer
+    permission_classes = [permissions.IsAuthenticated]
+
+    def get_queryset(self):
+        return Domain.objects.filter(owner=self.request.user)
+
+
 class DomainVerifyView(APIView):
     permission_classes = [permissions.IsAuthenticated]
 

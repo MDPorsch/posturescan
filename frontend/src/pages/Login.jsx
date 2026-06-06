@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useAuth } from '../hooks/useAuth.jsx'
+import PasswordInput from '../components/PasswordInput.jsx'
 
 export default function Login() {
   const nav = useNavigate()
@@ -35,10 +36,12 @@ export default function Login() {
           className="ps-input" placeholder="you@example.com"
           value={email} onChange={(e) => setEmail(e.target.value)}
         />
-        <input
-          type="password" autoComplete="current-password" required
-          className="ps-input" placeholder="Password"
-          value={password} onChange={(e) => setPassword(e.target.value)}
+        <PasswordInput
+          autoComplete="current-password"
+          required
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
         />
         {error && <p className="font-mono text-sm text-red-400">{error}</p>}
         <button type="submit" disabled={busy} className="ps-btn-primary w-full disabled:opacity-60">
