@@ -10,7 +10,11 @@ import Register from './pages/Register.jsx'
 import AppDashboard from './pages/AppDashboard.jsx'
 import DomainDetail from './pages/DomainDetail.jsx'
 import ScanReport from './pages/ScanReport.jsx'
+import About from './pages/About.jsx'
+import Team from './pages/Team.jsx'
+import Privacy from './pages/Privacy.jsx'
 import Navbar from './components/Navbar.jsx'
+import Footer from './components/Footer.jsx'
 
 function Protected({ children }) {
   const { user, loading } = useAuth()
@@ -33,6 +37,10 @@ function Shell() {
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
 
+          <Route path="/about"   element={<About />} />
+          <Route path="/team"    element={<Team />} />
+          <Route path="/privacy" element={<Privacy />} />
+
           <Route path="/app" element={<Protected><AppDashboard /></Protected>} />
           <Route path="/app/domains/:id" element={<Protected><DomainDetail /></Protected>} />
           <Route path="/app/scans/:id" element={<Protected><ScanReport /></Protected>} />
@@ -40,9 +48,7 @@ function Shell() {
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </main>
-      <footer className="border-t border-border-subtle/60 py-8 text-center text-sm text-emerald-50/40 font-body">
-        PostureScan · grade any domain&apos;s external security
-      </footer>
+      <Footer />
     </div>
   )
 }
