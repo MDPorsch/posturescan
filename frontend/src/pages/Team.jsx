@@ -105,14 +105,16 @@ export default function Team() {
 
       <div className="ps-card mt-12 p-8">
         <h2 className="font-display text-xl font-semibold tracking-tight">
-          On collaboration
+          Built across disciplines.
         </h2>
         <p className="mt-3 max-w-3xl text-emerald-50/70">
-          PostureScan started as a Helpdesk SaaS, then changed direction toward
-          something the team actually wanted to use. The shape it took — guest
-          scanning, an honest privacy posture, a public dashboard that protects the
-          people scanning it — came out of a lot of conversations. The thanks go to
-          everyone who pushed back, suggested cuts, and tested the rough edges.
+          PostureScan grades external web security — TLS, headers, cookies, DNS,
+          redirects, mixed content. None of that is one-person work. The shape of
+          the product — which checks to include, how to mask hostnames without
+          breaking trust, what a stranger sees the first time they hit{' '}
+          <span className="font-mono text-emerald-300">/dashboard</span> — came
+          from nine people arguing through every default. Every claim PostureScan
+          makes has been questioned by someone who would know.
         </p>
       </div>
     </div>
