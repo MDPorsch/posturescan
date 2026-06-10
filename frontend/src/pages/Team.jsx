@@ -108,13 +108,12 @@ export default function Team() {
           Built across disciplines.
         </h2>
         <p className="mt-3 max-w-3xl text-emerald-50/70">
-          PostureScan grades external web security — TLS, headers, cookies, DNS,
-          redirects, mixed content. None of that is one-person work. The shape of
-          the product — which checks to include, how to mask hostnames without
-          breaking trust, what a stranger sees the first time they hit{' '}
-          <span className="font-mono text-emerald-300">/dashboard</span> — came
-          from nine people arguing through every default. Every claim PostureScan
-          makes has been questioned by someone who would know.
+          Guest scanning. An honest privacy posture. A public dashboard that
+          protects the people scanning it. None of these were obvious calls —
+          each one came out of conversations the team kept having until something
+          defensible emerged. The thanks go to everyone on this page who pushed
+          back on a default, suggested a cut, or tested the rough edges before
+          anyone outside the team saw them.
         </p>
       </div>
     </div>
