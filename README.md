@@ -2,6 +2,9 @@
 
 > Grade any domain's external security in seconds. TLS, HTTP headers, cookies, DNS — twenty-plus checks, one report.
 
+
+![PostureScan landing](docs/hero.png)
+
 **Live**  ·  [posturescan.vercel.app](https://posturescan.vercel.app)  
 **Source**  ·  [github.com/MDPorsch/posturescan](https://github.com/MDPorsch/posturescan)  
 **Team**  ·  [posturescan.vercel.app/team](https://posturescan.vercel.app/team)
