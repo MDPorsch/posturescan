@@ -45,6 +45,11 @@ const TEAM = [
     role: 'Cloud computing',
     bio: 'Passionate about cloud computing and working towards becoming a certified Cloud Computing Engineer.',
   },
+  {
+    name: 'Olamide Smith',
+    role: 'DevOps',
+    bio: 'Aspiring DevOps engineer.',
+  },
 ]
 
 function initials(fullName) {
@@ -59,7 +64,7 @@ export default function Team() {
     <div className="mx-auto max-w-6xl px-6 py-16">
       <p className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400">the team</p>
       <h1 className="mt-3 font-display text-4xl font-bold tracking-tight sm:text-5xl">
-        Built by nine.
+        Built by ten.
       </h1>
       <p className="mt-3 max-w-2xl text-lg text-emerald-50/70">
         PostureScan is a capstone project from the TechCrush Cloud &amp; DevOps cohort.

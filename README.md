@@ -2,9 +2,6 @@
 
 > Grade any domain's external security in seconds. TLS, HTTP headers, cookies, DNS — twenty-plus checks, one report.
 
-
-![PostureScan landing](docs/hero.png)
-
 **Live**  ·  [posturescan.vercel.app](https://posturescan.vercel.app)  
 **Source**  ·  [github.com/MDPorsch/posturescan](https://github.com/MDPorsch/posturescan)  
 **Team**  ·  [posturescan.vercel.app/team](https://posturescan.vercel.app/team)
@@ -15,7 +12,7 @@ PostureScan is a free web application that scans any public domain and returns a
 
 Unlike enterprise security tooling that requires installation, configuration, or account creation, PostureScan is usable directly from a browser with zero friction. Type a hostname, wait about ten seconds, and read the report. Authenticated users can additionally track domains over time, compare scans, and download PDF reports.
 
-The product was built as a Cloud & DevOps capstone project by nine team members from the TechCrush cohort.
+The product was built as a Cloud & DevOps capstone project by ten team members from the TechCrush cohort.
 
 ## What it does
 
@@ -243,12 +240,13 @@ The `--ff-only` flag guarantees `main` is always a strict ancestor of `staging`.
 | Akah Hilary Erunke | Networking & Security |
 | Olubiyi Blessed | Software Engineering |
 | Wisdom Ayonitemi | Cloud Computing |
+| Olamide Smith | DevOps |
 
 Read more on [the team page](https://posturescan.vercel.app/team).
 
 ## Acknowledgments
 
-Built across disciplines by the TechCrush Cloud Computing cohort 6. Decisions like guest scanning, hostname masking, and the SSRF guard came from conversations the team kept having until something defensible emerged. The thanks go to everyone who pushed back on a default, suggested a cut, and tested the rough edges before anyone outside the team saw them.
+Built across disciplines by the TechCrush Cloud & DevOps cohort. Decisions like guest scanning, hostname masking, and the SSRF guard came from conversations the team kept having until something defensible emerged. The thanks go to everyone who pushed back on a default, suggested a cut, and tested the rough edges before anyone outside the team saw them.
 
 ---
 
