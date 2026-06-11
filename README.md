@@ -245,7 +245,7 @@ Read more on [the team page](https://posturescan.vercel.app/team).
 
 ## Acknowledgments
 
-Built across disciplines by the TechCrush Cloud & DevOps cohort. Decisions like guest scanning, hostname masking, and the SSRF guard came from conversations the team kept having until something defensible emerged. The thanks go to everyone who pushed back on a default, suggested a cut, and tested the rough edges before anyone outside the team saw them.
+Built across disciplines by the TechCrush Cloud Computing cohort 6. Decisions like guest scanning, hostname masking, and the SSRF guard came from conversations the team kept having until something defensible emerged. The thanks go to everyone who pushed back on a default, suggested a cut, and tested the rough edges before anyone outside the team saw them.
 
 ---
 
